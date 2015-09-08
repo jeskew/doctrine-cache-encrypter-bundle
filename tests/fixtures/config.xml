@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:framework="http://symfony.com/schema/dic/symfony"
+           xmlns:aws="http://example.org/schema/dic/aws">
+
+    <framework:config secret="Roger Kint is Keyser Soze."/>
+</container>

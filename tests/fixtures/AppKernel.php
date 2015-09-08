@@ -1,6 +1,5 @@
 <?php
 
-use Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle;
 use Jeskew\Cache\CacheEncrypterBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -20,7 +19,6 @@ class AppKernel extends Kernel
     {
         return array(
             new FrameworkBundle(),
-            new DoctrineCacheBundle(),
             new CacheEncrypterBundle(),
         );
     }

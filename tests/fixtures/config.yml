@@ -1,0 +1,32 @@
+framework:
+    secret: "Roger Kint is Keyser Soze."
+
+services:
+    key_factory:
+        class: KeyFactory
+        private: true
+    public_keys_to_encrypt_against:
+        class: Array
+        private: true
+        factory_service: key_factory
+        factory_method: getCertificates
+    my_private_key:
+        class: String
+        private: true
+        factory_service: key_factory
+        factory_method: getPrivateKey
+    cache1:
+        class: Doctrine\Common\Cache\ArrayCache
+        tags:
+            -
+                name: cache.encrypted
+                password: bohemian
+            -
+                name: cache.encrypted
+                alias: my_encrypted_cache
+                password: rhapsody
+            -
+                name: cache.encrypted
+                alias: my_pki_encrypted_cache
+                certificates: @public_keys_to_encrypt_against
+                key: @my_private_key
