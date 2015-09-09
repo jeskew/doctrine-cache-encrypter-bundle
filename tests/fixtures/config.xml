@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:framework="http://symfony.com/schema/dic/symfony"
-           xmlns:aws="http://example.org/schema/dic/aws">
+           xmlns:framework="http://symfony.com/schema/dic/symfony">
 
     <framework:config secret="Roger Kint is Keyser Soze."/>
+
+    <services>
+        <service id="key_factory" class="KeyFactory"/>
+        <service
+                id="public_keys_to_encrypt_against"
+                class="Array"
+                factory-service="key_factory"
+                factory-method="getCertificates" />
+        <service
+                id="my_private_key"
+                class="Array"
+                factory-service="key_factory"
+                factory-method="getPrivateKey" />
+        <service id="cache" class="Doctrine\Common\Cache\ArrayCache">
+            <tag name="cache.encrypted" password="a"/>
+            <tag name="cache.encrypted" password="b" alias="my_encrypted_cache"/>
+            <tag
+                    name="cache.encrypted"
+                    certificates="@public_keys_to_encrypt_against"
+                    key="@my_private_key"
+                    alias="my_pki_encrypted_cache"/>
+        </service>
+    </services>
 </container>

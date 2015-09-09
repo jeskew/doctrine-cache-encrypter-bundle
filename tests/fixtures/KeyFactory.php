@@ -16,7 +16,7 @@ class KeyFactory
         openssl_pkey_export($pKey, $this->key);
 
         // extract the public key
-        $csr = openssl_csr_new(array(), $pKey);
+        $csr = openssl_csr_new([], $pKey);
         $x509 = openssl_csr_sign($csr, null, $pKey, 1);
         openssl_x509_export($x509, $certificate);
 

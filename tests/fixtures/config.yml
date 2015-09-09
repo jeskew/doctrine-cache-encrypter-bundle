@@ -15,16 +15,16 @@ services:
         private: true
         factory_service: key_factory
         factory_method: getPrivateKey
-    cache1:
+    cache:
         class: Doctrine\Common\Cache\ArrayCache
         tags:
             -
                 name: cache.encrypted
-                password: bohemian
+                password: a
             -
                 name: cache.encrypted
                 alias: my_encrypted_cache
-                password: rhapsody
+                password: b
             -
                 name: cache.encrypted
                 alias: my_pki_encrypted_cache
