@@ -1,5 +1,5 @@
 {
-    "name": "jeskew/doctrince-cache-encrypter-bundle",
+    "name": "jeskew/doctrine-cache-encrypter-bundle",
     "description": "A bundle to manage encryption for your doctrine caches",
     "minimum-stability": "stable",
     "license": "Apache-2.0",
