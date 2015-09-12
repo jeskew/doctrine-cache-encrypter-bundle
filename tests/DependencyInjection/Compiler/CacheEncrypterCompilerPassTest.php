@@ -89,4 +89,18 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
             $this->assertSame($ref, (string) $config['foo'][$ref]);
         }
     }
+
+    /**
+     * @expectedException \DomainException
+     */
+    public function testShouldValidateTagParameters()
+    {
+        $pass = new CacheEncrypterCompilerPass;
+        $reflPass = new \ReflectionClass('Jeskew\\Cache\\DependencyInjection\\'
+            . 'Compiler\\CacheEncrypterCompilerPass');
+        $builderMethod = $reflPass->getMethod('buildDecoratorDefinition');
+        $builderMethod->setAccessible(true);
+
+        $builderMethod->invoke($pass, 'a_cache_service', ['foo' => 'bar']);
+    }
 }

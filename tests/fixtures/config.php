@@ -19,7 +19,10 @@ $container->register('my_private_key', 'String')
     ->setFactoryMethod('getPrivateKey');
 
 $container->register('cache', 'Doctrine\Common\Cache\ArrayCache')
-    ->addTag('cache.encrypted', ['password' => 'a'])
+    ->addTag('cache.encrypted', [
+        'password' => 'a',
+        'cipher' => 'aes-256-cfb',
+    ])
     ->addTag('cache.encrypted', [
         'alias' => 'my_encrypted_cache',
         'password' => 'b',
@@ -28,4 +31,5 @@ $container->register('cache', 'Doctrine\Common\Cache\ArrayCache')
         'alias' => 'my_pki_encrypted_cache',
         'certificates' => '@public_keys_to_encrypt_against',
         'key' => '@my_private_key',
+        'cipher' => 'aes-192-ecb',
     ]);
