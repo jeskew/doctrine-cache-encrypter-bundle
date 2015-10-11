@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "jeskew/doctrine-cache-encrypter": "~0.1",
+        "jeskew/doctrine-cache-encrypter": "~1.0",
         "symfony/dependency-injection": "~2.3",
         "symfony/http-kernel": "~2.3"
     },
