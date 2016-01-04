@@ -28,5 +28,5 @@ services:
             -
                 name: cache.encrypted
                 alias: my_pki_encrypted_cache
-                certificates: @public_keys_to_encrypt_against
-                key: @my_private_key
+                certificates: '@public_keys_to_encrypt_against'
+                key: '@my_private_key'
