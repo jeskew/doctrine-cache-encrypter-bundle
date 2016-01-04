@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class CacheEncrypterBundle extends ContainerAware implements BundleInterface
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.1.0';
 
     public function build(ContainerBuilder $container)
     {
