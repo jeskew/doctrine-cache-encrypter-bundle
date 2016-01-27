@@ -1,6 +1,8 @@
 <?php
-namespace Jeskew\Cache\DependencyInjection\Compiler;
+namespace Jsq\Cache\DependencyInjection\Compiler;
 
+use Jsq\Cache\EnvelopeEncryption\Decorator as EnvelopeEncryptionDecorator;
+use Jsq\Cache\PasswordEncryption\Decorator as PasswordEncryptionDecorator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -26,7 +28,7 @@ class CacheEncrypterCompilerPass implements CompilerPassInterface
 
     private function buildDecoratorDefinition($decorated, array $tags)
     {
-        if ($this->arrayHasKeys($tags, ['certificates', 'key'])) {
+        if ($this->arrayHasKeys($tags, ['certificate', 'key'])) {
             return $this->buildPkiDecoratorDefinition($decorated, $tags);
         }
 
@@ -45,19 +47,19 @@ class CacheEncrypterCompilerPass implements CompilerPassInterface
             $args []= $tags['cipher'];
         }
 
-        return new Definition('Jeskew\\Cache\\PasswordEncryptionDecorator', $args);
+        return new Definition(PasswordEncryptionDecorator::class, $args);
     }
 
     private function buildPkiDecoratorDefinition($decorated, array $tag)
     {
-        $args = [new Reference($decorated), $tag['certificates'], $tag['key']];
+        $args = [new Reference($decorated), $tag['certificate'], $tag['key']];
         foreach (['password', 'cipher'] as $optionalParameter) {
             if (isset($tag[$optionalParameter])) {
                 $args []= $tag[$optionalParameter];
             }
         }
 
-        return new Definition('Jeskew\\Cache\\PkiEncryptionDecorator', $args);
+        return new Definition(EnvelopeEncryptionDecorator::class, $args);
     }
 
     private function arrayHasKeys(array $array, array $keys)

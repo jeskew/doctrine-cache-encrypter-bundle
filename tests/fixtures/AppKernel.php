@@ -1,6 +1,6 @@
 <?php
 
-use Jeskew\Cache\CacheEncrypterBundle;
+use Jsq\Cache\CacheEncrypterBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;

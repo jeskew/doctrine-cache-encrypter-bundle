@@ -5,16 +5,14 @@ services:
     key_factory:
         class: KeyFactory
         private: true
-    public_keys_to_encrypt_against:
-        class: Array
+    my_public_key:
+        class: stdClass
         private: true
-        factory_service: key_factory
-        factory_method: getCertificates
+        factory: ["@key_factory", getCertificate]
     my_private_key:
-        class: String
+        class: stdClass
         private: true
-        factory_service: key_factory
-        factory_method: getPrivateKey
+        factory: ["@key_factory", getPrivateKey]
     cache:
         class: Doctrine\Common\Cache\ArrayCache
         tags:
@@ -28,5 +26,5 @@ services:
             -
                 name: cache.encrypted
                 alias: my_pki_encrypted_cache
-                certificates: '@public_keys_to_encrypt_against'
+                certificate: '@my_public_key'
                 key: '@my_private_key'

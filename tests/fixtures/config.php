@@ -8,15 +8,13 @@ $container->loadFromExtension('framework', array(
 
 $container->register('key_factory', 'KeyFactory');
 
-$container->register('public_keys_to_encrypt_against', 'Array')
+$container->register('my_public_key', 'Array')
     ->setPublic(false)
-    ->setFactoryService('key_factory')
-    ->setFactoryMethod('getCertificates');
+    ->setFactory([new Reference('key_factory'), 'getCertificate']);
 
 $container->register('my_private_key', 'String')
     ->setPublic(false)
-    ->setFactoryService('key_factory')
-    ->setFactoryMethod('getPrivateKey');
+    ->setFactory([new Reference('key_factory'), 'getPrivateKey']);
 
 $container->register('cache', 'Doctrine\Common\Cache\ArrayCache')
     ->addTag('cache.encrypted', [
@@ -29,7 +27,7 @@ $container->register('cache', 'Doctrine\Common\Cache\ArrayCache')
     ])
     ->addTag('cache.encrypted', [
         'alias' => 'my_pki_encrypted_cache',
-        'certificates' => '@public_keys_to_encrypt_against',
+        'certificate' => '@my_public_key',
         'key' => '@my_private_key',
         'cipher' => 'aes-192-ecb',
     ]);
