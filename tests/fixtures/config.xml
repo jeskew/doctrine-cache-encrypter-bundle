@@ -6,16 +6,12 @@
 
     <services>
         <service id="key_factory" class="KeyFactory"/>
-        <service
-                id="my_public_key"
-                class="Array"
-                factory-service="key_factory"
-                factory-method="getCertificate" />
-        <service
-                id="my_private_key"
-                class="Array"
-                factory-service="key_factory"
-                factory-method="getPrivateKey" />
+        <service id="my_public_key" class="stdClass">
+            <factory service="key_factory" method="getCertificate"/>
+        </service>
+        <service id="my_private_key" class="stdClass">
+            <factory service="key_factory" method="getPrivateKey"/>
+        </service>
         <service id="cache" class="Doctrine\Common\Cache\ArrayCache">
             <tag name="cache.encrypted" password="a"/>
             <tag name="cache.encrypted" password="b" alias="my_encrypted_cache"/>

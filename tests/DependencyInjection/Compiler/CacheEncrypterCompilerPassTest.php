@@ -7,6 +7,16 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        (new Filesystem)
+            ->remove(array_map(function (array $args) {
+                return dirname(dirname(__DIR__))
+                . "/fixtures/cache/test_{$args[0]}";
+            }, self::configFormatProvider()));
+    }
+
     /**
      * @dataProvider configFormatProvider
      *
@@ -14,7 +24,6 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function testCanBuildContainer($format)
     {
-        $this->purgeCache();
         $app = new \AppKernel("test_$format", true, $format);
         $app->boot();
         $container = $app->getContainer();
@@ -33,22 +42,13 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function configFormatProvider()
+    public static function configFormatProvider()
     {
         return [
             ['yml'],
             ['xml'],
             ['php'],
         ];
-    }
-
-    private function purgeCache()
-    {
-        (new Filesystem)
-            ->remove(array_map(function (array $args) {
-                return dirname(dirname(__DIR__))
-                . "/fixtures/cache/test_{$args[0]}";
-            }, $this->configFormatProvider()));
     }
 
     public function testExtensionShouldEscapeStringsThatBeginWithAtSign()

@@ -6,15 +6,13 @@ services:
         class: KeyFactory
         private: true
     my_public_key:
-        class: Array
+        class: stdClass
         private: true
-        factory_service: key_factory
-        factory_method: getCertificate
+        factory: ["@key_factory", getCertificate]
     my_private_key:
-        class: String
+        class: stdClass
         private: true
-        factory_service: key_factory
-        factory_method: getPrivateKey
+        factory: ["@key_factory", getPrivateKey]
     cache:
         class: Doctrine\Common\Cache\ArrayCache
         tags:

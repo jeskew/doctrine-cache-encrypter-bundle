@@ -2,12 +2,14 @@
 namespace Jsq\Cache;
 
 use Jsq\Cache\DependencyInjection\Compiler\CacheEncrypterCompilerPass;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-class CacheEncrypterBundle extends ContainerAware implements BundleInterface
+class CacheEncrypterBundle implements BundleInterface
 {
+    use ContainerAwareTrait;
+
     const VERSION = '0.3.0';
 
     public function build(ContainerBuilder $container)

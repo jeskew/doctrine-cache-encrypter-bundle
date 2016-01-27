@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\DependencyInjection\Reference;
+
 $container->loadFromExtension('framework', array(
     'secret' =>  'Roger Kint is Keyser Soze.',
 ));
@@ -8,13 +10,11 @@ $container->register('key_factory', 'KeyFactory');
 
 $container->register('my_public_key', 'Array')
     ->setPublic(false)
-    ->setFactoryService('key_factory')
-    ->setFactoryMethod('getCertificate');
+    ->setFactory([new Reference('key_factory'), 'getCertificate']);
 
 $container->register('my_private_key', 'String')
     ->setPublic(false)
-    ->setFactoryService('key_factory')
-    ->setFactoryMethod('getPrivateKey');
+    ->setFactory([new Reference('key_factory'), 'getPrivateKey']);
 
 $container->register('cache', 'Doctrine\Common\Cache\ArrayCache')
     ->addTag('cache.encrypted', [
