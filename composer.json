@@ -1,5 +1,5 @@
 {
-    "name": "jeskew/doctrine-cache-encrypter-bundle",
+    "name": "jsq/doctrine-cache-encrypter-bundle",
     "description": "A bundle to manage encryption for your doctrine caches",
     "minimum-stability": "stable",
     "license": "Apache-2.0",
@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "jeskew/doctrine-cache-encrypter": "~1.0",
+        "php": ">=5.5",
+        "jsq/doctrine-cache-encrypter": "~0.3.0",
         "symfony/dependency-injection": "~2.3|~3.0",
         "symfony/http-kernel": "~2.3|~3.0"
     },
@@ -20,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Jeskew\\Cache\\": "src/"
+            "Jsq\\Cache\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Jeskew\\Cache\\": "tests/"
+            "Jsq\\Cache\\": "tests/"
         },
         "classmap": [
             "tests/fixtures"

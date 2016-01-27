@@ -1,6 +1,8 @@
 <?php
-namespace Jeskew\Cache\DependencyInjection\Compiler;
+namespace Jsq\Cache\DependencyInjection\Compiler;
 
+use Jsq\Cache\EncryptingDecorator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Filesystem\Filesystem;
 
 class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +27,7 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
         foreach ($cacheServices as $cacheService) {
             $this->assertTrue($container->has($cacheService));
             $this->assertInstanceOf(
-                'Jeskew\\Cache\\EncryptingCacheDecorator',
+                EncryptingDecorator::class,
                 $container->get($cacheService)
             );
         }
@@ -52,8 +54,7 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
     public function testExtensionShouldEscapeStringsThatBeginWithAtSign()
     {
         $pass = new CacheEncrypterCompilerPass;
-        $reflPass = new \ReflectionClass('Jeskew\\Cache\\DependencyInjection\\'
-            . 'Compiler\\CacheEncrypterCompilerPass');
+        $reflPass = new \ReflectionClass(CacheEncrypterCompilerPass::class);
         $inflationMethod = $reflPass->getMethod('inflateServicesInTag');
         $inflationMethod->setAccessible(true);
 
@@ -70,8 +71,7 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
     public function testExtensionShouldExpandServiceReferences()
     {
         $pass = new CacheEncrypterCompilerPass;
-        $reflPass = new \ReflectionClass('Jeskew\\Cache\\DependencyInjection\\'
-            . 'Compiler\\CacheEncrypterCompilerPass');
+        $reflPass = new \ReflectionClass(CacheEncrypterCompilerPass::class);
         $inflationMethod = $reflPass->getMethod('inflateServicesInTag');
         $inflationMethod->setAccessible(true);
 
@@ -83,7 +83,7 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         foreach (['bar', 'baz'] as $ref) {
             $this->assertInstanceOf(
-                'Symfony\Component\DependencyInjection\Reference',
+                Reference::class,
                 $config['foo'][$ref]
             );
             $this->assertSame($ref, (string) $config['foo'][$ref]);
@@ -96,8 +96,7 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
     public function testShouldValidateTagParameters()
     {
         $pass = new CacheEncrypterCompilerPass;
-        $reflPass = new \ReflectionClass('Jeskew\\Cache\\DependencyInjection\\'
-            . 'Compiler\\CacheEncrypterCompilerPass');
+        $reflPass = new \ReflectionClass(CacheEncrypterCompilerPass::class);
         $builderMethod = $reflPass->getMethod('buildDecoratorDefinition');
         $builderMethod->setAccessible(true);
 

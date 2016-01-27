@@ -7,10 +7,10 @@
     <services>
         <service id="key_factory" class="KeyFactory"/>
         <service
-                id="public_keys_to_encrypt_against"
+                id="my_public_key"
                 class="Array"
                 factory-service="key_factory"
-                factory-method="getCertificates" />
+                factory-method="getCertificate" />
         <service
                 id="my_private_key"
                 class="Array"
@@ -21,7 +21,7 @@
             <tag name="cache.encrypted" password="b" alias="my_encrypted_cache"/>
             <tag
                     name="cache.encrypted"
-                    certificates="@public_keys_to_encrypt_against"
+                    certificate="@my_public_key"
                     key="@my_private_key"
                     alias="my_pki_encrypted_cache"/>
         </service>
