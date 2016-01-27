@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/jeskew/doctrine-cache-encrypter-bundle.svg?branch=master)](https://travis-ci.org/jeskew/doctrine-cache-encrypter-bundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeskew/doctrine-cache-encrypter-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeskew/doctrine-cache-encrypter-bundle/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/jeskew/doctrine-cache-encrypter-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jeskew/doctrine-cache-encrypter-bundle/?branch=master)
-[![Apache 2 License](https://img.shields.io/packagist/l/jeskew/doctrine-cache-encrypter-bundle.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![Total Downloads](https://img.shields.io/packagist/dt/jeskew/doctrine-cache-encrypter-bundle.svg?style=flat)](https://packagist.org/packages/jeskew/doctrine-cache-encrypter-bundle)
+[![Apache 2 License](https://img.shields.io/packagist/l/jsq/doctrine-cache-encrypter-bundle.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Total Downloads](https://img.shields.io/packagist/dt/jsq/doctrine-cache-encrypter-bundle.svg?style=flat)](https://packagist.org/packages/jeskew/doctrine-cache-encrypter-bundle)
 [![Author](http://img.shields.io/badge/author-@jreskew-blue.svg?style=flat-square)](https://twitter.com/jreskew)
 
 The purpose of this bundle is to provide a thin wrapper around the [Doctrine
