@@ -7,19 +7,28 @@
     <services>
         <service id="key_factory" class="KeyFactory"/>
         <service id="my_public_key" class="stdClass">
-            <factory service="key_factory" method="getCertificate"/>
+            <factory service="key_factory" method="getCertificate" />
         </service>
         <service id="my_private_key" class="stdClass">
-            <factory service="key_factory" method="getPrivateKey"/>
+            <factory service="key_factory" method="getPrivateKey" />
         </service>
-        <service id="cache" class="Doctrine\Common\Cache\ArrayCache">
+        <service id="my_iron_password" class="Jsq\Iron\Password">
+            <argument>a_very_very_long_password_one_long_enough_to_meet_the_minimum</argument>
+            <argument>password_id</argument>
+        </service>
+        <service id="my_cache" class="Doctrine\Common\Cache\ArrayCache">
             <tag name="cache.encrypted" password="a"/>
-            <tag name="cache.encrypted" password="b" alias="my_encrypted_cache"/>
+            <tag name="cache.encrypted" password="b" alias="my_encrypted_cache" />
             <tag
                     name="cache.encrypted"
                     certificate="@my_public_key"
                     key="@my_private_key"
-                    alias="my_pki_encrypted_cache"/>
+                    alias="my_pki_encrypted_cache" />
+            <tag
+                    name="cache.encrypted"
+                    alias="my_iron_cache"
+                    password="@my_iron_password"
+                    iron="yes" />
         </service>
     </services>
 </container>

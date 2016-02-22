@@ -2,6 +2,7 @@
 namespace Jsq\Cache\DependencyInjection\Compiler;
 
 use Jsq\Cache\EnvelopeEncryption\Decorator as EnvelopeEncryptionDecorator;
+use Jsq\Cache\IronEncryption\Decorator as IronEncryptionDecorator;
 use Jsq\Cache\PasswordEncryption\Decorator as PasswordEncryptionDecorator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -26,28 +27,42 @@ class CacheEncrypterCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function buildDecoratorDefinition($decorated, array $tags)
+    private function buildDecoratorDefinition($decorated, array $tag)
     {
-        if ($this->arrayHasKeys($tags, ['certificate', 'key'])) {
-            return $this->buildPkiDecoratorDefinition($decorated, $tags);
+        if ($this->arrayHasKeys($tag, ['certificate', 'key'])) {
+            return $this->buildPkiDecoratorDefinition($decorated, $tag);
+        } elseif ($this->arrayHasKeys($tag, ['iron', 'password'])
+            && filter_var($tag['iron'], FILTER_VALIDATE_BOOLEAN)
+        ) {
+            return $this->buildIronDecoratorDefinition($decorated, $tag);
         }
 
-        return $this->buildPasswordDecoratorDefinition($decorated, $tags);
+        return $this->buildPasswordDecoratorDefinition($decorated, $tag);
     }
 
-    private function buildPasswordDecoratorDefinition($decorated, array $tags)
+    private function buildPasswordDecoratorDefinition($decorated, array $tag)
     {
-        if (empty($tags['password'])) {
+        if (empty($tag['password'])) {
             throw new \DomainException('Cannot encrypt a cache'
                 . ' with an empty password.');
         }
 
-        $args = [new Reference($decorated), $tags['password']];
-        if (isset($tags['cipher'])) {
-            $args []= $tags['cipher'];
+        $args = [new Reference($decorated), $tag['password']];
+        if (isset($tag['cipher'])) {
+            $args []= $tag['cipher'];
         }
 
         return new Definition(PasswordEncryptionDecorator::class, $args);
+    }
+
+    private function buildIronDecoratorDefinition($decorated, array $tag)
+    {
+        $args = [new Reference($decorated), $tag['password']];
+        if (isset($tag['cipher'])) {
+            $args []= $tag['cipher'];
+        }
+
+        return new Definition(IronEncryptionDecorator::class, $args);
     }
 
     private function buildPkiDecoratorDefinition($decorated, array $tag)
@@ -75,11 +90,7 @@ class CacheEncrypterCompilerPass implements CompilerPassInterface
 
     private function inflateServicesInTag(array &$config)
     {
-        array_walk($config, function (&$value) {
-            if (is_array($value)) {
-                $this->inflateServicesInTag($value);
-            }
-
+        array_walk_recursive($config, function (&$value) {
             if (is_string($value) && 0 === strpos($value, '@')) {
                 // this is either a service reference or a string meant to
                 // start with an '@' symbol. In any case, lop off the first '@'

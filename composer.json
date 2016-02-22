@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "jsq/doctrine-cache-encrypter": "~0.3.0",
+        "jsq/doctrine-cache-encrypter": "~0.4",
         "symfony/dependency-injection": "~2.6|~3.0",
         "symfony/http-kernel": "~2.6|~3.0"
     },
