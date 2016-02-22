@@ -1,7 +1,9 @@
 <?php
 namespace Jsq\Cache\DependencyInjection\Compiler;
 
-use Jsq\Cache\EncryptingDecorator;
+use Jsq\Cache\EnvelopeEncryption\Decorator as EnvelopeDecorator;
+use Jsq\Cache\IronEncryption\Decorator as IronDecorator;
+use Jsq\Cache\PasswordEncryption\Decorator as PasswordDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -28,17 +30,15 @@ class CacheEncrypterCompilerPassTest extends \PHPUnit_Framework_TestCase
         $app->boot();
         $container = $app->getContainer();
         $cacheServices = [
-            'cache.encrypted',
-            'my_encrypted_cache',
-            'my_pki_encrypted_cache',
+            'my_cache.encrypted' => PasswordDecorator::class,
+            'my_encrypted_cache' => PasswordDecorator::class,
+            'my_pki_encrypted_cache' => EnvelopeDecorator::class,
+            'my_iron_cache' => IronDecorator::class,
         ];
 
-        foreach ($cacheServices as $cacheService) {
+        foreach ($cacheServices as $cacheService => $excpectedClass) {
             $this->assertTrue($container->has($cacheService));
-            $this->assertInstanceOf(
-                EncryptingDecorator::class,
-                $container->get($cacheService)
-            );
+            $this->assertInstanceOf($excpectedClass, $container->get($cacheService));
         }
     }
 
